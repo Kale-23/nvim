@@ -19,6 +19,7 @@ return {
     keys = {
         {"<leader>dvo", "<cmd>RainbowDelim<cr><cmd>RainbowAlign<cr>", desc = "Select delim and align file"},
         {"<leader>dvc", "<cmd>NoRainbowDelim<cr>", desc = "Select delim and align file"},
+        {"<leader>dve", "<esc>:q!<cr>", desc = "delete changes in file (reverts changes done by rainbow align)"},
     },
 
 }
