@@ -1,1 +1,1 @@
-require("nvim_lazy")
+require("config.lazy")
