@@ -1,7 +1,7 @@
 return {
     {
         "catppuccin/nvim",
-        name = "catppuccin",
+        lazy = false,
         priority = 1000,
         config = function()
             require("catppuccin").setup({
@@ -14,5 +14,4 @@ return {
             vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
         end
     },
-
 }

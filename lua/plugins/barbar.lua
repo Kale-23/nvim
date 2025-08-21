@@ -1,20 +1,3 @@
---[[
-return {
-    {
-        'mrjones2014/winbarbar.nvim',
-        name = "winbarbar",
-        dependencies = {
-            'kyazdani42/nvim-web-devicons'
-        },
-        config = function()
-            require("bufferline").setup({
-                auto_hide = true,
-                maximum_length = 10,
-            })
-        end,
-    }
-}
---]]
 return {
   {
         'romgrk/barbar.nvim',
