@@ -83,3 +83,15 @@ map("t", "<C-k>", "<cmd>wincmd k<cr>", { desc = "Go to Upper Window" })
 map("t", "<C-l>", "<cmd>wincmd l<cr>", { desc = "Go to Right Window" })
 map("t", "<C-/>", "<cmd>close<cr>", { desc = "Hide Terminal" })
 
+-- PACKAGES
+vim.pack.add({
+  { src = "https://github.com/catppuccin/nvim" },
+  { src = "https://github.com/stevearc/oil.nvim" },
+})
+
+require "catppuccin".setup({ flavor = "frappe", transparent_background = false })
+vim.cmd("colorscheme catppuccin")
+
+require "oil".setup()
+
+
