@@ -6,18 +6,18 @@ vim.opt.expandtab = true
 vim.opt.guicursor = ""
 vim.opt.hlsearch = false
 vim.opt.incsearch = true -- shows matches as typed during search
-vim.opt.mouse = "a" -- enable mouse in all modes
-vim.opt.number = true -- line numbers
-vim.opt.relativenumber = false 
+vim.opt.mouse = "a"      -- enable mouse in all modes
+vim.opt.number = true    -- line numbers
+vim.opt.relativenumber = false
 vim.opt.shell = "fish"
 vim.opt.shiftwidth = 2
-vim.opt.showmode = false 
+vim.opt.showmode = false
 vim.opt.showtabline = 2
 vim.opt.signcolumn = "yes" -- always show (keeps columns consistant)
 vim.opt.smartindent = true
 vim.opt.softtabstop = 2
 vim.opt.scrolloff = 8
-vim.opt.swapfile = true 
+vim.opt.swapfile = true
 vim.opt.tabstop = 2
 vim.opt.termguicolors = true
 vim.opt.undofile = true
@@ -27,11 +27,11 @@ vim.opt.wrap = false
 
 -- AUTOCOMMANDS
 vim.api.nvim_create_autocmd('TextYankPost', {
-	desc = 'Highlight when yanking/ copying text',
-	group = vim.api.nvim_create_augroup('kickstart-highlight-yank', {clear = true}),
-	callback = function()
-		vim.highlight.on_yank()
-	end,
+  desc = 'Highlight when yanking/ copying text',
+  group = vim.api.nvim_create_augroup('kickstart-highlight-yank', { clear = true }),
+  callback = function()
+    vim.highlight.on_yank()
+  end,
 })
 
 -- KEYMAPS
@@ -76,22 +76,68 @@ map("n", "<S-l>", "<cmd>bnext<cr>", { desc = "Next Buffer" })
 map('n', '<leader>bd', '<cmd>bdelete<CR>', { desc = "Delete Buffer" })
 
 -- Terminal Mappings --TODO fix this somehow
-map("t", "<esc><esc>", "<c-\\><c-n>", { desc = "Enter Normal Mode" })
-map("t", "<C-h>", "<cmd>wincmd h<cr>", { desc = "Go to Left Window" })
-map("t", "<C-j>", "<cmd>wincmd j<cr>", { desc = "Go to Lower Window" })
-map("t", "<C-k>", "<cmd>wincmd k<cr>", { desc = "Go to Upper Window" })
-map("t", "<C-l>", "<cmd>wincmd l<cr>", { desc = "Go to Right Window" })
-map("t", "<C-/>", "<cmd>close<cr>", { desc = "Hide Terminal" })
+-- map("t", "<esc><esc>", "<c-\\><c-n>", { desc = "Enter Normal Mode" })
+-- map("t", "<C-h>", "<cmd>wincmd h<cr>", { desc = "Go to Left Window" })
+-- map("t", "<C-j>", "<cmd>wincmd j<cr>", { desc = "Go to Lower Window" })
+-- map("t", "<C-k>", "<cmd>wincmd k<cr>", { desc = "Go to Upper Window" })
+-- map("t", "<C-l>", "<cmd>wincmd l<cr>", { desc = "Go to Right Window" })
+-- map("t", "<C-/>", "<cmd>close<cr>", { desc = "Hide Terminal" })
 
 -- PACKAGES
 vim.pack.add({
   { src = "https://github.com/catppuccin/nvim" },
   { src = "https://github.com/stevearc/oil.nvim" },
+  { src = "https://github.com/echasnovski/mini.pick" },
+  { src = "https://github.com/mbbill/undotree" },
+  { src = "https://github.com/mason-org/mason.nvim" },
+  { src = "https://github.com/nvim-treesitter/nvim-treesitter" },
+  { src = "https://github.com/saghen/blink.cmp" },
+
 })
 
-require "catppuccin".setup({ flavor = "frappe", transparent_background = false })
+-- colors
+require "catppuccin".setup({
+  flavor = "frappe", transparent_background = false
+})
 vim.cmd("colorscheme catppuccin")
 
-require "oil".setup()
+-- oil
+require "oil".setup({
+  keymaps = {
+    ["<leader>e"] = { "actions.close", mode = "n" },
+  }
+})
+map("n", "<leader>e", ":Oil<CR>")
+
+-- mini pick
+require "mini.pick".setup()
+map("n", "<leader>f", ":Pick files<CR>")
+map("n", "<leader>b", ":Pick buffers<CR>")
+
+-- undo tree
+map("n", "<leader>u", ":UndotreeToggle<CR>")
+
+-- mason
+require "mason".setup()
+
+-- treesitter
+require "nvim-treesitter.configs".setup({
+  ensure_installed = { "lua" },
+  highlight = { enable = true }
+})
 
 
+-- LSP
+vim.lsp.enable({
+  "lua_ls",
+  "rust_analyzer"
+})
+require "blink.cmp".setup({
+  keymap = { preset = "default" },
+  fuzzy = { implementation = "rust" }
+})
+local capabilities = require('blink.cmp').get_lsp_capabilities()
+vim.lsp.config('*', {
+  capabilities = capabilities,
+})
+map("n", "<leader>lf", vim.lsp.buf.format)
